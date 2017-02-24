@@ -22,7 +22,7 @@ import re
 import sys
 
 # Results generated from crossref.org database. Thank you!
-SEARCH_URL = "http://www.crossref.org/guestquery"
+SEARCH_URL = "https://doi.crossref.org/guestquery"
 SEARCH_NOTFOUND = "search not found"
 PAYLOAD = {
     # default payload
