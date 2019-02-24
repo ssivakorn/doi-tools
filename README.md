@@ -7,11 +7,22 @@ Credit: http://www.crossref.org/guestquery/
 
 Usage
 -----
-```
-python doilookup.py -a "sivakorn" -t "I am Robot: (Deep) Learning to Break Semantic Image CAPTCHAs"
+In short, do this
+
+```sh
+$ python3 doilookup.py -a "sivakorn" -t "I am Robot: (Deep) Learning to Break Semantic Image CAPTCHAs"
 ```
 
+```sh
+sivakorn|I am Robot: (Deep) Learning to Break Semantic Image CAPTCHAs|http://dx.doi.org/10.1109/EuroSP.2016.37
 ```
+
+For more help, do
+```sh
+$ python3 doilookup.py -h
+```
+
+```sh
 Simple script to lookup DOI from author and title
 
 optional arguments:
@@ -22,3 +33,5 @@ optional arguments:
                         paper title
   --html HTML           get full html output page: [filename]
 ```
+
+

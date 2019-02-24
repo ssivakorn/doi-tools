@@ -15,39 +15,39 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
 # USA
 
-from __future__ import print_function
+import sys
+import logging
 import argparse
 import requests
 import re
-import sys
 
 # Results generated from crossref.org database. Thank you!
-SEARCH_URL = "https://doi.crossref.org/guestquery"
+SEARCH_URL      = "https://doi.crossref.org/guestquery"
 SEARCH_NOTFOUND = "search not found"
-PAYLOAD = {
+PAYLOAD         = {
     # default payload
-    "queryType": "author-title",
-    "auth2": "",    # author
-    "atitle2": "",  # title
-    "multi_hit": "true",
-    "article_title_search": "Search"
+    "queryType"            : "author-title",
+    "auth2"                : "",                # author
+    "atitle2"              : "",                # title
+    "multi_hit"            : "true",
+    "article_title_search" : "Search"
 }
 
-
 def lookup(author, title, html=None):
-    """ DOI lookup function
-    author: paper author's last name
-    title: paper title
-    html: html file name to be saved
-    returns outputs of DOIs found
-    """
-    founds = []
+    """DOI lookup function
+    :param author:  paper author's last name
+    :param title:   paper title
+    :param html:    html file name to be saved
 
-    payload = dict(PAYLOAD)
-    payload["auth2"] = author
-    payload["atitle2"] = title
-    ret = requests.post(SEARCH_URL, data=payload)
-    body = ret.text
+    :return: Returns outputs of DOIs found
+    """
+    founds             = []
+    payload            = dict(PAYLOAD)
+    payload["auth2"]   = author.lower()
+    payload["atitle2"] = title.lower()
+    ret                = requests.post(SEARCH_URL, data = payload)
+    body               = ret.text
+
 
     if html:
         with open(html, 'w') as filep:
@@ -60,29 +60,28 @@ def lookup(author, title, html=None):
                 founds.append(match)
     return founds
 
-def main(argv):
-    """ Main program ... duh.
+def main():
+    """Main program ... duh.
     """
     parser = argparse.ArgumentParser(
-                description="Simple script to lookup DOI from author and title")
+        description="Simple script to lookup DOI from author and title")
     parser.add_argument("-a", "--author",
                         required=True, help="author's lastname")
     parser.add_argument("-t", "--title",
                         required=True, help="paper title")
     parser.add_argument("--html",
-            help="get full html output page: [filename]")
+                        help="get full html output page: [filename]")
 
-    args = parser.parse_args()
+    args   = parser.parse_args()
     author = args.author
-    title = args.title
-    html = args.html
+    title  = args.title
+    html   = args.html
 
     # Do it
     founds = lookup(author, title, html)
     for item in founds:
-        print("%s|%s|%s" % (author, title, item), file=sys.stdout)
-
+        print("{}|{}|{}".format(author, title, item), file=sys.stderr)
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
 
